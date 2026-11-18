@@ -225,6 +225,26 @@ main{padding:0 16px 15px}.home-hero{color:#fff9e9;background:radial-gradient(cir
 .calendar-art svg{width:34px;height:34px;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;fill:none}
 @media(prefers-reduced-motion:reduce){.login-faces img{animation:none}.recipient-reveal{animation:none}.env-letter,.env-flap{transition:none}}
 
+/* V9: gentle glitter burst only while the secret letter opens. */
+.letter-glitter{position:absolute;inset:0;pointer-events:none;z-index:9;overflow:visible}
+.letter-glitter-particle{
+  position:absolute;left:50%;top:49%;pointer-events:none;
+  width:var(--particle-size,9px);height:var(--particle-size,9px);
+  background:#f5cf6a;
+  clip-path:polygon(50% 0,63% 36%,100% 50%,63% 64%,50% 100%,37% 64%,0 50%,37% 36%);
+  opacity:0;
+  animation:letter-glitter-burst 1.18s cubic-bezier(.12,.55,.27,.99) var(--delay,0ms) both;
+}
+.letter-glitter-particle.round{clip-path:none;border-radius:50%;box-shadow:0 0 7px currentColor}
+@keyframes letter-glitter-burst{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.12) rotate(0deg)}
+  15%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(38deg)}
+  66%{opacity:1}
+  100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.6) rotate(var(--turn))}
+}
+@media(prefers-reduced-motion:reduce){.letter-glitter-particle{display:none!important}}
+
+
 
 /* V7: extra login snow, one quiet score chip, organizer-only points. */
 #loginView .login-snowfall {left:50%;top:0;z-index:1;}
@@ -282,7 +302,6 @@ main{padding:0 16px 15px}.home-hero{color:#fff9e9;background:radial-gradient(cir
           <div class="hero-ornament hero-ornament-left" aria-hidden="true">✦</div>
           <div class="hero-ornament hero-ornament-right" aria-hidden="true">✳</div>
           <div class="christmas-journey" aria-label="Mūsų Kalėdų kelionė: Kelmė, Vilnius, Porsgrunn">
-            <div class="journey-eyebrow"><span aria-hidden="true">✧</span> MŪSŲ KALĖDŲ KELIONĖ <span aria-hidden="true">✧</span></div>
             <div class="journey-rail" aria-hidden="true">
               <svg class="journey-line" viewBox="0 0 340 38" preserveAspectRatio="none" focusable="false">
                 <path d="M29 25 Q100 4 170 20 Q251 41 311 11" fill="none" stroke="rgba(255,236,179,.62)" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 7"/>
@@ -327,6 +346,7 @@ main{padding:0 16px 15px}.home-hero{color:#fff9e9;background:radial-gradient(cir
             <span class="env-pocket" aria-hidden="true"></span>
             <span class="env-flap" aria-hidden="true"></span>
             <span class="env-seal" aria-hidden="true">✦</span>
+            <span class="letter-glitter" id="letterGlitter" aria-hidden="true"></span>
           </button>
           <p class="mail-hint">Paliesk laišką ✨</p>
         </div>
@@ -408,7 +428,7 @@ const questions = [
       "15 milijardų km"
     ],
     "a": 2,
-    "f": "Airijos nacionalinio standartų instituto (NSAI) specialistai apskaičiavo, kad aplankyti maždaug 900 mln. namų per 31 valandą Kalėdų Seneliui reikėtų nukeliauti apie 1,5 mlrd. km ir skrieti beveik 45 mln. km/h greičiu. Tai linksmas hipotetinis skaičiavimas."
+    "f": "Viename žaismingame mokslininkų skaičiavime Kalėdų Seneliui reikėtų skrieti beveik 45 mln. km/h greičiu, kad per 31 valandą aplankytų 900 mln. namų!"
   },
   {
     "q": "Kurios trys šalys 2025 m. kartu pateikė paraišką įtraukti Kūčių vakarienės tradiciją į UNESCO nematerialaus paveldo sąrašą?",
@@ -419,7 +439,7 @@ const questions = [
       "Lietuva, Lenkija ir Baltarusija"
     ],
     "a": 1,
-    "f": "Lietuva, Lenkija ir Ukraina 2025 m. kovo 31 d. pateikė bendrą paraišką UNESCO. Šių šalių Kūčių vakarienės tradicijose minimi 12 ar daugiau patiekalų. Paraiškos pateikimas dar nereiškia, kad tradicija jau įrašyta į sąrašą."
+    "f": "2025 m. Lietuva, Lenkija ir Ukraina kartu kreipėsi į UNESCO dėl Kūčių vakarienės tradicijos. Joje dažnai ruošiama bent 12 patiekalų."
   },
   {
     "q": "Kurios šalies kalėdiniame folklore eglutės puošiamos vorų ir voratinklių ornamentais?",
@@ -430,7 +450,7 @@ const questions = [
       "Vengrijos"
     ],
     "a": 1,
-    "f": "Ukrainoje vorų ir voratinklių ornamentai siejami su sėkme. Viena kalėdinė legenda pasakoja, kaip vorai savo tinklais papuošė neturtingos šeimos eglutę."
+    "f": "Pasak ukrainiečių legendos, vorai savo tinklais papuošė neturtingos šeimos eglutę. Todėl voratinkliai tapo sėkmės simboliu!"
   },
   {
     "q": "Po kokiu augalu pagal kalėdinę tradiciją įprasta pasibučiuoti?",
@@ -441,7 +461,7 @@ const questions = [
       "Gebene"
     ],
     "a": 2,
-    "f": "Vienas ankstyviausių žinomų bučiavimosi po amalu paminėjimų aptinkamas 1784 m. Anglijoje pastatytoje komiškoje operoje „Two to One“."
+    "f": "Bučiniai po amalu minimi jau 1784 m. Anglijoje pastatytoje komiškoje operoje „Two to One“."
   },
   {
     "q": "Kaip vadinasi Suomijos Laplandijos miestas, laikomas oficialiais Kalėdų Senelio namais?",
@@ -452,7 +472,7 @@ const questions = [
       "Oulu"
     ],
     "a": 0,
-    "f": "Rovaniemis yra prie Šiaurės poliarinio rato. 2010 m. miestas gavo oficialaus Kalėdų Senelio gimtojo miesto statusą, o Kalėdų Senelio kaimelyje jį galima aplankyti ištisus metus."
+    "f": "Rovaniemio Kalėdų Senelio kaimelyje Senelį galima aplankyti net vasarą!"
   },
   {
     "q": "Ką, pasak islandų folkloro, reikia gauti prieš Kalėdas, kad tavęs nesuėstų milžiniškas Kalėdų katinas?",
@@ -463,7 +483,7 @@ const questions = [
       "Medinį žaislą"
     ],
     "a": 0,
-    "f": "Islandų legendose milžiniškas Kalėdų katinas Jólakötturinn tyko tų, kurie prieš Kalėdas negavo naujo drabužio. Šis pasakojimas siejamas su sena vilnos apdirbimo tradicija."
+    "f": "Pagal islandų legendą milžiniškas Kalėdų katinas medžioja tuos, kurie prieš šventes negavo nė vieno naujo drabužio!"
   },
   {
     "q": "Ką norvegai pagal seną prietarą paslėpdavo Kūčių vakarą, kad raganos to nepanaudotų skraidymui?",
@@ -474,7 +494,7 @@ const questions = [
       "Žirkles"
     ],
     "a": 1,
-    "f": "Senuose Norvegijos kalėdinių papročių aprašymuose minima, kad žmonės slėpdavo šluotas, nes baiminosi, jog raganos jomis išskris Kūčių naktį. Tai istorinis tikėjimas, ne dabartinė visuotinė tradicija."
+    "f": "Pasak seno norvegų prietaro, Kūčių naktį raganos ieškodavo šluotų skraidymui, todėl žmonės jas paslėpdavo."
   },
   {
     "q": "Ką pagal seną lietuvių Kūčių burtą galima išvysti veidrodyje žiūrint į jį pasilenkus pro savo kojas?",
@@ -485,7 +505,7 @@ const questions = [
       "Kitų metų nelaimes"
     ],
     "a": 1,
-    "f": "Viename užrašytame Kūčių burto variante siūlyta tuščiame kambaryje pastatyti veidrodį prie durų ir į jį žiūrėti pasilenkus per tarpkojį. Tikėta, kad taip pasirodys būsimas vyras arba žmona."
+    "f": "Pagal seną Kūčių burtą, žiūrint į veidrodį pro savo kojas galima išvysti būsimą sutuoktinį!"
   },
   {
     "q": "Kokio gyvūno uodegą Lietuvos didikai senovėje galėdavo valgyti net per pasninką, laikydami ją panašia į žuvį?",
@@ -496,7 +516,7 @@ const questions = [
       "Anties"
     ],
     "a": 1,
-    "f": "Istoriniuose pasakojimuose minima, kad bebro uodega buvo prilyginama žuviai dėl žvynus primenančio paviršiaus, todėl kai kada valgyta per pasninką. Pats bebras, žinoma, yra žinduolis."
+    "f": "Bebro uodegą dėl žvynus primenančio paviršiaus kartais prilygindavo žuviai ir valgydavo net per pasninką."
   },
   {
     "q": "Kas Italijoje, pasak tradicijos, naktį iš sausio 5-osios į 6-ąją vaikams atneša saldumynų arba anglių?",
@@ -507,7 +527,7 @@ const questions = [
       "Trys piemenys"
     ],
     "a": 2,
-    "f": "La Befana – ant šluotos skraidanti senutė iš italų folkloro. Ji geriems vaikams palieka saldumynų, o neklaužadoms – anglių, kurios šiais laikais dažnai būna saldžios."
+    "f": "Italų folkloro ragana Befana geriems vaikams palieka saldumynų, o neklaužadoms – anglių. Šiandien jos dažnai būna saldžios!"
   },
   {
     "q": "Kokį milžinišką šiaudinį gyvūną kasmet prieš Kalėdas stato Švedijos mieste Jevlėje (Gävle)?",
@@ -518,7 +538,7 @@ const questions = [
       "Šiaudinį arklį"
     ],
     "a": 1,
-    "f": "Didžiulis šiaudinis Gävle ožys statomas nuo 1966 m. Jis išgarsėjo ne vien dydžiu: per savo istoriją ne kartą nukentėjo nuo padegėjų."
+    "f": "Milžiniškas Jevlės šiaudinis ožys statomas nuo 1966 m., bet per savo istoriją ne kartą tapo padegėjų taikiniu!"
   },
   {
     "q": "Kas, pasak senųjų lietuvių tikėjimų, Kūčių vidurnaktį gali prabilti žmonių kalba?",
@@ -529,7 +549,7 @@ const questions = [
       "Mirusiųjų portretai"
     ],
     "a": 1,
-    "f": "Lietuvių tautosakoje pasakojama, kad Kūčių naktį gyvuliai gali kalbėti ir net pranašauti ateitį. Tačiau esą geriau jų nesiklausyti – gali išgirsti nemalonią pranašystę."
+    "f": "Lietuvių tautosakoje pasakojama, kad Kūčių naktį gyvuliai gali kalbėti ir pranašauti ateitį. Tačiau jų pasiklausyti esą pavojinga!"
   },
   {
     "q": "Su kurios šalies kino kūrėjais Rytų Vokietija 1973 m. sukūrė filmą „Trys riešutėliai Pelenei“, kurį norvegai tradiciškai žiūri per Kūčias?",
@@ -540,7 +560,7 @@ const questions = [
       "Prancūzijos"
     ],
     "a": 2,
-    "f": "1973 m. filmas „Trys riešutėliai Pelenei“ buvo bendras Čekoslovakijos ir Rytų Vokietijos kūrinys. Norvegijoje jis tapo Kūčių televizijos tradicija, o norvegiškoje versijoje aktorius Knutas Risanas įgarsino visus personažus."
+    "f": "Norvegijoje „Trys riešutėliai Pelenei“ tapo Kūčių tradicija, o norvegiškoje versijoje vienas aktorius įgarsino visus veikėjus!"
   },
   {
     "q": "Kokia neįprasta pramoga Venesueloje išpopuliarėjo per Kalėdų laikotarpį?",
@@ -551,7 +571,7 @@ const questions = [
       "Plaukiojimas valtimis"
     ],
     "a": 0,
-    "f": "Venesuelos kalėdinės riedučių šventės vadinamos „las patinatas“. Nuo XX a. vidurio, ypač Karakase, žmonės per šventes rinkdavosi važinėti riedučiais; kartais tam net uždarydavo gatves. Kai kur ši veikla buvo siejama ir su ankstyvomis mišiomis, bet ne visur."
+    "f": "Venesueloje šventinis važinėjimas riedučiais vadinamas „las patinatas“. Kartais dėl jo net uždarydavo gatves!"
   },
   {
     "q": "Iš kokių neįprastų ingredientų XIX a. turtingesniuose Lietuvos namuose buvo siūloma gaminti Kūčių paštetą?",
@@ -562,7 +582,7 @@ const questions = [
       "Vištų širdelių ir riešutų"
     ],
     "a": 2,
-    "f": "Istoriniame XIX a. Kūčių meniu minimas žuvų skrandukų ir kepenėlių paštetas prancūziškoje tešloje. Greta jo būdavo siūloma patiekti karpį su razinomis ir lydeką su šafranu."
+    "f": "XIX a. Kūčių stalui siūlytas žuvų skrandukų ir kepenėlių paštetas tešloje – greta karpio su razinomis!"
   },
   {
     "q": "Ką danai paslepia tradiciniame kalėdiniame ryžių deserte, kad vienas šeimos narys laimėtų prizą?",
@@ -573,7 +593,7 @@ const questions = [
       "Mažą marcipaninę figūrėlę"
     ],
     "a": 2,
-    "f": "Daniškame ryžių deserte „risalamande“ paslepiamas vienas visas migdolas. Jį radusiam tenka maža dovana – „mandelgave“. Desertas paprastai valgomas su vyšnių padažu."
+    "f": "Daniškame deserte „risalamande“ paslepiamas vienas visas migdolas. Jį radęs gauna dovanėlę – „mandelgave“!"
   },
   {
     "q": "Kurioje šalyje 1818 m. pirmą kartą buvo atlikta kalėdinė giesmė „Tyli naktis“?",
@@ -584,7 +604,7 @@ const questions = [
       "Čekijoje"
     ],
     "a": 1,
-    "f": "Giesmės „Tyli naktis“ tekstas parašytas 1816 m., o muzika sukurta 1818 m. Pirmą kartą ji atlikta 1818 m. gruodžio 24 d. Oberndorfe, Austrijoje."
+    "f": "„Tyli naktis“ pirmą kartą nuskambėjo 1818 m. Kūčių vakarą Oberndorfe, Austrijoje."
   },
   {
     "q": "Kuris teiginys apie „Coca-Cola“ ir Kalėdų Senelį yra teisingas?",
@@ -595,7 +615,7 @@ const questions = [
       "„Coca-Cola“ sukūrė devynis Kalėdų Senelio elnius"
     ],
     "a": 2,
-    "f": "„Coca-Cola“ 1931 m. pradėjo naudoti H. Sundblomo pieštą linksmą raudonai apsirengusį Kalėdų Senelį. Tačiau raudonas jo kostiumas ir pats personažas egzistavo gerokai anksčiau."
+    "f": "„Coca-Cola“ nuo 1931 m. reklamomis išgarsino raudonai apsirengusį Kalėdų Senelį. Tačiau jo raudonas kostiumas egzistavo ir anksčiau."
   },
   {
     "q": "Kokį animacinį personažą milijonai švedų tradiciškai žiūri per Kūčias 15 valandą?",
@@ -606,7 +626,7 @@ const questions = [
       "Skūbį Dū"
     ],
     "a": 1,
-    "f": "Švedijoje nuo 1960 m. per Kūčias rodoma „Kalle Anka och hans vänner önskar God Jul“ – speciali „Disney“ filmukų programa, kurios pavadinime minimas ančiukas Donaldas."
+    "f": "Švedijoje per Kūčias 15 valandą televizorius įjungiami dėl ančiuko Donaldo ir „Disney“ filmukų – tai tradicija nuo 1960 m.!"
   },
   {
     "q": "Iš kokios daržovės Meksikos mieste Oachakoje gruodžio 23 d. kuriamos kalėdinės skulptūros?",
@@ -617,7 +637,7 @@ const questions = [
       "Morkų"
     ],
     "a": 1,
-    "f": "Oachakoje gruodžio 23 d. vyksta „Noche de Rábanos“ – Ridikėlių naktis. Menininkai iš specialiai užaugintų didelių ridikėlių kuria sudėtingas šventines kompozicijas."
+    "f": "Meksikos Oachakoje gruodžio 23 d. vyksta Ridikėlių naktis – iš milžiniškų ridikėlių drožiamos šventinės scenos!"
   },
   {
     "q": "Koks yra oficialus Kalėdų Seneliui skirtas pašto kodas Kanadoje?",
@@ -628,7 +648,7 @@ const questions = [
       "X0X 0X0"
     ],
     "a": 1,
-    "f": "Kanados paštas priima vaikų laiškus Kalėdų Seneliui, adresuotus į Šiaurės ašigalį. Kodas „H0H 0H0“ primena jo juoką „Ho ho ho“ – jame yra skaitmenys nuliai, o ne raidės O."
+    "f": "Kalėdų Senelio pašto kodas Kanadoje „H0H 0H0“ primena „Ho ho ho“ – jame rašomi nuliai, o ne raidės O!"
   },
   {
     "q": "Kodėl ledo kristalai, iš kurių susidaro snaigės, dažnai turi šešiakampę struktūrą?",
@@ -639,7 +659,7 @@ const questions = [
       "Dėl atmosferos slėgio svyravimų"
     ],
     "a": 2,
-    "f": "Ledo kristalų vidinė struktūra yra šešiakampė dėl vandens molekulių išsidėstymo. Temperatūra ir drėgmė lemia daugybę skirtingų snaigių formų, todėl ne visos snaigės atrodo taisyklingos."
+    "f": "Snaigių šešiakampę struktūrą lemia vandens molekulių išsidėstymas lede. Temperatūra ir drėgmė kuria jų raštų įvairovę!"
   },
   {
     "q": "Kuri šalis nuo 1947 m. dovanoja Londonui didžiulę Kalėdų eglę kaip padėką už pagalbą Antrojo pasaulinio karo metais?",
@@ -650,7 +670,7 @@ const questions = [
       "Norvegija"
     ],
     "a": 3,
-    "f": "Nuo 1947 m. Oslas kasmet dovanoja Londonui eglę, statomą Trafalgaro aikštėje. Tai Norvegijos padėka Didžiajai Britanijai už paramą Antrojo pasaulinio karo metais."
+    "f": "Nuo 1947 m. Oslas kasmet siunčia eglę į Londono Trafalgaro aikštę – kaip padėką už paramą per Antrąjį pasaulinį karą."
   },
   {
     "q": "Koks ingredientas tradiciškai naudojamas lietuviškiems kraujiniams vėdarams, kurie būdavo valgomi ir per Kalėdas, gaminti?",
@@ -661,7 +681,7 @@ const questions = [
       "Kiaulės smegenys"
     ],
     "a": 0,
-    "f": "Kraujiniai vėdarai gaminami iš kiaulės kraujo, kruopų, riebalų ir prieskonių, įdarą kemšant į žarnas. Istorikas Rimvydas Laužikas juos mini tarp senųjų lietuvių Kalėdų, bet ne pasninko Kūčių, patiekalų."
+    "f": "Kraujiniai vėdarai gaminami iš kiaulės kraujo, kruopų ir prieskonių. Anksčiau jie būdavo valgomi per Kalėdas!"
   }
 ];
 
@@ -681,7 +701,7 @@ const firebaseConfig = {
   appId: '1:152060713410:web:cbca7c34cdbaf9ec945e5b'
 };
 const accountHashes = {"domas":"b4308270c21c2ba0b5229d4f08b9e7b455fbea4609fec9abe78ed861d1e36170","gerda":"b266d2f35b7b4dc9ed8f1a5f30b8147fa1565e570fa7c521a504e3ca3df99d02","rokas":"1a0444d9bc59453c0e96b1311cc8227b20dc8ba6f979bea6b004d63e05826a85","vismante":"3f4900c7fd25bfbd935ce18c53184576bd147e57e1a3928346f2db2d56689c86","edmundas":"d350c4264167de059b0540d5f1ae2692962a5efe7c48ccf0eef5ecb1d56135bd","vilija":"019e8721195c07abad21b261d1eb8e5fa6dcea2e6bae90bc34ff33ac933fd8c4"};
-const assignments = {"domas":"rokas","gerda":"edmundas","rokas":"domas","vismante":"vilija","edmundas":"gerda","vilija":"vismante"};
+const assignments = {"domas":"vilija","gerda":"vismante","rokas":"gerda","vismante":"edmundas","edmundas":"domas","vilija":"rokas"};
 const participants = [
  {id:'domas',name:'Domas',vocative:'Domai',dative:'Domui',alias:'secret1'},
  {id:'gerda',name:'Gerda',vocative:'Gerda',dative:'Gerdai',alias:'secret2'},
@@ -840,17 +860,38 @@ el('closeSanta').addEventListener('click',()=>santaDialog.close());
 santaDialog.addEventListener('click',e=>{if(e.target===santaDialog)santaDialog.close();});
 el('closeQuiz').addEventListener('click',()=>quizDialog.close());
 quizDialog.addEventListener('click',e=>{if(e.target===quizDialog)quizDialog.close();});
+// A short golden glitter burst triggered by opening the envelope.
+function launchLetterGlitter(){
+ const layer=el('letterGlitter');
+ layer.replaceChildren();
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ const shades=['#ffe39c','#f8ba59','#fff9e7','#eaa57c'];
+ for(let i=0;i<25;i++){
+  const sparkle=document.createElement('span');
+  const angle=(i*137.5+19)*Math.PI/180;
+  const distance=64+(i%5)*22;
+  sparkle.className='letter-glitter-particle'+(i%5===0?' round':'');
+  sparkle.style.setProperty('--dx',Math.round(Math.cos(angle)*distance)+'px');
+  sparkle.style.setProperty('--dy',Math.round(Math.sin(angle)*distance-16)+'px');
+  sparkle.style.setProperty('--turn',(100+i*31)+'deg');
+  sparkle.style.setProperty('--delay',((i%6)*27)+'ms');
+  sparkle.style.setProperty('--particle-size',(5+(i%4)*3)+'px');
+  sparkle.style.background=shades[i%shades.length];
+  layer.appendChild(sparkle);
+ }
+}
 // Envelope opening with a fixed, one-to-one Secret Santa draw (no self assignments).
 let envelopeOpened=false;
 function resetEnvelope(){
  envelopeOpened=false;el('sealedLetter').hidden=false;
- el('openEnvelope').classList.remove('opened');
+ el('openEnvelope').classList.remove('opened');el('letterGlitter').replaceChildren();
  el('openEnvelope').disabled=false;el('recipientReveal').hidden=true;
 }
 el('openEnvelope').addEventListener('click',()=>{
  if(!currentUser||envelopeOpened)return;
  envelopeOpened=true;
  el('openEnvelope').classList.add('opened');el('openEnvelope').disabled=true;
+  launchLetterGlitter();
  const recipient=byId[assignments[currentUser.id]];
  const reveal=()=>{
   if(!currentUser)return;
