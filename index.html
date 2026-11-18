@@ -225,6 +225,24 @@ main{padding:0 16px 15px}.home-hero{color:#fff9e9;background:radial-gradient(cir
 .calendar-art svg{width:34px;height:34px;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;fill:none}
 @media(prefers-reduced-motion:reduce){.login-faces img{animation:none}.recipient-reveal{animation:none}.env-letter,.env-flap{transition:none}}
 
+
+/* V7: extra login snow, one quiet score chip, organizer-only points. */
+#loginView .login-snowfall {left:50%;top:0;z-index:1;}
+#loginView .login-snowfall .flake {color:#f7efdf;opacity:0;}
+#loginView > :not(.login-snowfall) {position:relative;z-index:2;}
+.my-score{display:flex;align-items:center;justify-content:center;gap:8px;width:max-content;max-width:100%;margin:0 auto 18px;padding:10px 18px;border-radius:99px;background:#fff1d2;border:1px solid #ead9ab;color:#235441;font-size:14px;font-weight:800;box-shadow:0 3px 0 #eadfc1;}
+.my-score > span:first-child{color:#be9046;font-size:19px}
+.admin-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:6px 0 13px}
+.admin-title h2{font-family:'Fraunces',Georgia,serif;font-size:22px;color:#214d3a;margin:0}
+.admin-refresh{background:#e4ebdd;border:1px solid #cedbc7;border-radius:99px;padding:9px 13px;color:#31583f;font-size:12px;font-weight:800;cursor:pointer}
+.admin-board{display:grid;gap:9px}
+.admin-row{display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid #e9dcc5;background:#fff9ed;border-radius:16px;min-height:66px}
+.admin-row img{width:44px;height:44px;object-fit:contain;border-radius:50%;background:#e8edda}
+.admin-row .person{flex:1;min-width:0;font-weight:750;color:#244e3c}
+.admin-row .numbers{display:grid;text-align:right;gap:3px;white-space:nowrap}
+.admin-row .numbers b{font-size:17px;color:#ad573d}
+.admin-row .numbers small{font-size:10px;color:#788574}
+.admin-notice{font-size:12px;color:#6e7d70;text-align:center;margin:10px 4px}
 </style>
 
 <script defer src="https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js"></script>
@@ -234,6 +252,7 @@ main{padding:0 16px 15px}.home-hero{color:#fff9e9;background:radial-gradient(cir
 <body>
   <div class="app-shell">
     <section id="loginView" aria-labelledby="loginHeading">
+    <div class="snowfall login-snowfall" aria-hidden="true"><span aria-hidden="true" class="flake" style="--x:3%;--size:13px;--duration:16s;--delay:-0.0s;--drift:-18px;--alpha:0.26">❄</span><span aria-hidden="true" class="flake" style="--x:9%;--size:9px;--duration:21s;--delay:-3.7s;--drift:13px;--alpha:0.37">✧</span><span aria-hidden="true" class="flake" style="--x:14%;--size:12px;--duration:18s;--delay:-7.4s;--drift:-9px;--alpha:0.42">•</span><span aria-hidden="true" class="flake" style="--x:20%;--size:10px;--duration:23s;--delay:-11.1s;--drift:16px;--alpha:0.28">❄</span><span aria-hidden="true" class="flake" style="--x:25%;--size:15px;--duration:19s;--delay:-14.8s;--drift:-12px;--alpha:0.34">✧</span><span aria-hidden="true" class="flake" style="--x:31%;--size:9px;--duration:25s;--delay:-18.5s;--drift:10px;--alpha:0.5">•</span><span aria-hidden="true" class="flake" style="--x:38%;--size:13px;--duration:16s;--delay:-22.2s;--drift:-18px;--alpha:0.26">❄</span><span aria-hidden="true" class="flake" style="--x:45%;--size:9px;--duration:21s;--delay:-25.9s;--drift:13px;--alpha:0.37">✧</span><span aria-hidden="true" class="flake" style="--x:51%;--size:12px;--duration:18s;--delay:-3.6s;--drift:-9px;--alpha:0.42">•</span><span aria-hidden="true" class="flake" style="--x:57%;--size:10px;--duration:23s;--delay:-7.3s;--drift:16px;--alpha:0.28">❄</span><span aria-hidden="true" class="flake" style="--x:62%;--size:15px;--duration:19s;--delay:-11.0s;--drift:-12px;--alpha:0.34">✧</span><span aria-hidden="true" class="flake" style="--x:69%;--size:9px;--duration:25s;--delay:-14.7s;--drift:10px;--alpha:0.5">•</span><span aria-hidden="true" class="flake" style="--x:74%;--size:13px;--duration:16s;--delay:-18.4s;--drift:-18px;--alpha:0.26">❄</span><span aria-hidden="true" class="flake" style="--x:80%;--size:9px;--duration:21s;--delay:-22.1s;--drift:13px;--alpha:0.37">✧</span><span aria-hidden="true" class="flake" style="--x:86%;--size:12px;--duration:18s;--delay:-25.8s;--drift:-9px;--alpha:0.42">•</span><span aria-hidden="true" class="flake" style="--x:91%;--size:10px;--duration:23s;--delay:-3.5s;--drift:16px;--alpha:0.28">❄</span><span aria-hidden="true" class="flake" style="--x:97%;--size:15px;--duration:19s;--delay:-7.2s;--drift:-12px;--alpha:0.34">✧</span></div>
       <div class="login-mark" aria-hidden="true">✧ ❄ ✧</div>
       <h1 id="loginHeading">Mūsų <em>Kalėdos!</em></h1>
       <p>Šventinės paslaptys jau laukia tavęs 🎄</p>
@@ -283,7 +302,7 @@ main{padding:0 16px 15px}.home-hero{color:#fff9e9;background:radial-gradient(cir
             <span class="action-copy"><strong>Advento žaidimas</strong><small>Po klausimą kasdien</small></span>
             <span class="action-arrow" aria-hidden="true">›</span>
           </button>
-          <button class="results-link" data-to="final">🎁 Vietos paaiškės gruodžio 25 d. <span aria-hidden="true">›</span></button>
+          <button class="results-link" data-to="final" id="resultsShortcut">🎁 Vietos paaiškės gruodžio 25 d. <span aria-hidden="true">›</span></button>
         </div>
       </section>
 
@@ -313,6 +332,7 @@ main{padding:0 16px 15px}.home-hero{color:#fff9e9;background:radial-gradient(cir
           <div class="small-eyebrow">KASDIEN PO VIENĄ STAIGMENĄ</div>
           <h1 id="adventTitle">Advento<br><em>kalendorius</em></h1>
         </div>
+        <div class="my-score" id="scoreBadge" role="status" aria-live="polite"><span aria-hidden="true">✦</span> <span id="scoreText">Mano taškai: tikrinama…</span></div>
         <div class="advent-note" id="adventNote" aria-live="polite"></div>
         <button class="primary-button today-button" id="todayQuestionButton" hidden>Šiandienos advento klausimas <span aria-hidden="true">›</span></button>
         <div class="calendar-heading"><strong>24 dienos</strong><span id="calendarStatus">🎄</span></div>
@@ -323,7 +343,7 @@ main{padding:0 16px 15px}.home-hero{color:#fff9e9;background:radial-gradient(cir
       <section class="screen" id="screen-final" aria-labelledby="finalTitle" hidden>
         <div class="page-head final-head">
           <div class="section-icon" aria-hidden="true">🏆</div>
-          <div class="small-eyebrow">GRUODŽIO 25 D.</div>
+          <div class="small-eyebrow" id="resultsEyebrow">GRUODŽIO 25 D.</div>
           <h1 id="finalTitle">Kalėdų<br><em>rezultatai</em></h1>
         </div>
         <div id="finalArea" aria-live="polite"></div>
@@ -350,7 +370,7 @@ main{padding:0 16px 15px}.home-hero{color:#fff9e9;background:radial-gradient(cir
       <button class="tab active" data-to="home" aria-current="page"><span aria-hidden="true">⌂</span><small>Pradžia</small></button>
       <button class="tab" data-to="santa"><span aria-hidden="true">🎁</span><small>Senelis</small></button>
       <button class="tab" data-to="advent"><span aria-hidden="true">🗓️</span><small>Adventas</small></button>
-      <button class="tab" data-to="final"><span aria-hidden="true">🏆</span><small>Vietos</small></button>
+      <button class="tab" data-to="final"><span aria-hidden="true">🏆</span><small id="resultsTabLabel">Vietos</small></button>
     </nav>
     </div>
   </div>
@@ -410,14 +430,14 @@ const firebaseConfig = {
   appId: '1:152060713410:web:cbca7c34cdbaf9ec945e5b'
 };
 const accountHashes = {"domas":"b4308270c21c2ba0b5229d4f08b9e7b455fbea4609fec9abe78ed861d1e36170","gerda":"b266d2f35b7b4dc9ed8f1a5f30b8147fa1565e570fa7c521a504e3ca3df99d02","rokas":"1a0444d9bc59453c0e96b1311cc8227b20dc8ba6f979bea6b004d63e05826a85","vismante":"3f4900c7fd25bfbd935ce18c53184576bd147e57e1a3928346f2db2d56689c86","edmundas":"d350c4264167de059b0540d5f1ae2692962a5efe7c48ccf0eef5ecb1d56135bd","vilija":"019e8721195c07abad21b261d1eb8e5fa6dcea2e6bae90bc34ff33ac933fd8c4"};
-const assignments = {"domas":"rokas","gerda":"domas","rokas":"vismante","vismante":"vilija","edmundas":"gerda","vilija":"edmundas"};
+const assignments = {"domas":"rokas","gerda":"edmundas","rokas":"domas","vismante":"vilija","edmundas":"gerda","vilija":"vismante"};
 const participants = [
- {id:'domas',name:'Domas',vocative:'Domai',alias:'secret1'},
- {id:'gerda',name:'Gerda',vocative:'Gerda',alias:'secret2'},
- {id:'rokas',name:'Rokas',vocative:'Rokai',alias:'secret3'},
- {id:'vismante',name:'Vismantė',vocative:'Vismante',alias:'secret4'},
- {id:'edmundas',name:'Edmundas',vocative:'Edmundai',alias:'secret5'},
- {id:'vilija',name:'Vilija',vocative:'Vilija',alias:'secret6'}
+ {id:'domas',name:'Domas',vocative:'Domai',dative:'Domui',alias:'secret1'},
+ {id:'gerda',name:'Gerda',vocative:'Gerda',dative:'Gerdai',alias:'secret2'},
+ {id:'rokas',name:'Rokas',vocative:'Rokai',dative:'Rokui',alias:'secret3'},
+ {id:'vismante',name:'Vismantė',vocative:'Vismante',dative:'Vismantei',alias:'secret4'},
+ {id:'edmundas',name:'Edmundas',vocative:'Edmundai',dative:'Edmundui',alias:'secret5'},
+ {id:'vilija',name:'Vilija',vocative:'Vilija',dative:'Vilijai',alias:'secret6'}
 ];
 const byId=Object.fromEntries(participants.map(p=>[p.id,p]));
 const el=id=>document.getElementById(id), qsa=s=>[...document.querySelectorAll(s)];
@@ -425,7 +445,7 @@ const isLocalPreview=location.protocol==='file:' || ['localhost','127.0.0.1'].in
 const eventYear=2026, christmas=20261225, start=20261201;
 const demoLoginKey='kaledos-2026-demo-user-v6';
 let currentUser=null, authUser=null, auth=null, db=null, answered={}, testDate=null;
-let loadingAnswers=false, savingAnswer=false, loginInProgress=false;
+let loadingAnswers=false, savingAnswer=false, loginInProgress=false, answersLoaded=false, answerLoadError=false, answerLoadPromise=null;
 const loginForm=el('loginForm'), loginInput=el('playerPassword');
 const loginError=el('loginError'), loginStatus=el('loginStatus');
 const quizDialog=el('quizDialog'), santaDialog=el('santaDialog');
@@ -491,7 +511,7 @@ function lockUI(locked){
  loginInput.disabled=locked;
 }
 function showLogin(message=''){
- currentUser=null;authUser=null;answered={};
+ currentUser=null;authUser=null;answered={};answersLoaded=false;answerLoadError=false;answerLoadPromise=null;
  el('loginView').hidden=false;el('privateApp').hidden=true;
  if(message)loginError.textContent=message;
  loginInput.value='';
@@ -509,9 +529,12 @@ function signInLocal(person){
 }
 function setSignedIn(person,user,openLetter){
  currentUser=person;authUser=user||null;
- answered=isLocalPreview?loadDemoAnswers():{};
+ answered=isLocalPreview?loadDemoAnswers():{};answersLoaded=isLocalPreview;answerLoadError=false;answerLoadPromise=null;
  el('loginView').hidden=true;el('privateApp').hidden=false;
  loginError.textContent='';loginStatus.textContent='';
+ el('resultsTabLabel').textContent=person.id==='vismante'?'Rezultatai':'Vietos';
+ el('resultsEyebrow').textContent=person.id==='vismante'?'PRIVATI PERŽIŪRA':'GRUODŽIO 25 D.';
+ el('resultsShortcut').innerHTML=person.id==='vismante'?'📋 Peržiūrėti dalyvių rezultatus <span aria-hidden="true">›</span>':'🎁 Vietos paaiškės gruodžio 25 d. <span aria-hidden="true">›</span>';
  el('santaIdentity').innerHTML=`<img src="${ASSETS[person.id].face}" alt=""><strong>Labas, ${person.vocative}!</strong><p>Tavo kalėdinis laiškas jau laukia.</p>`;
  resetEnvelope();
  goto(openLetter?'santa':'home');
@@ -582,7 +605,7 @@ el('openEnvelope').addEventListener('click',()=>{
   if(!currentUser)return;
   el('sealedLetter').hidden=true;
   const panel=el('recipientReveal');
-  panel.innerHTML=`<div class="sparkles">✧ ✦ ✧</div><p>Šiais metais dovaną įteiksi...</p><div class="recipient-name">${recipient.name}!</div><img src="${ASSETS[recipient.id].dance}" alt="Šoka ${recipient.name}"><p>Tegul tai lieka paslaptis! 🎁</p>`;
+  panel.innerHTML=`<div class="sparkles">✧ ✦ ✧</div><p>Šiais metais dovaną įteiksi...</p><div class="recipient-name">${recipient.dative}!</div><img src="${ASSETS[recipient.id].dance}" alt="Šoka ${recipient.name}">`;
   panel.hidden=false;
  };
  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)reveal();
@@ -591,6 +614,8 @@ el('openEnvelope').addEventListener('click',()=>{
 // One question per day. Old days cannot be reopened in the interface.
 function renderAdvent(){
  if(!currentUser)return;
+ const score=Object.entries(answered).filter(([day,choice])=>questions[Number(day)-1]?.a===choice).length;
+ el('scoreText').textContent=(!isLocalPreview&&!answersLoaded)?(answerLoadError?'Taškų įkelti nepavyko':'Mano taškai: tikrinama…'):'Mano taškai: '+score;
  const stage=getStage(),note=el('adventNote'),button=el('todayQuestionButton'),grid=el('calendarGrid');
  button.hidden=true;
  if(stage.kind==='before'){
@@ -599,7 +624,7 @@ function renderAdvent(){
  } else if(stage.kind==='day'){
    const done=answered[stage.today]!==undefined;
    note.innerHTML=`<strong>Gruodžio ${stage.today}-oji ✨</strong><p>${loadingAnswers?'Tikrinamas šiandienos atsakymas…':done?'Šiandien jau atsakei. Iki rytojaus!':'Šiandien tavęs laukia naujas klausimas!'}</p>`;
-   button.hidden=false;button.disabled=loadingAnswers;
+   button.hidden=false;button.disabled=loadingAnswers||answerLoadError;
    button.innerHTML=done?'Šiandienos faktas <span aria-hidden="true">›</span>':'Šiandienos advento klausimas <span aria-hidden="true">›</span>';
    el('calendarStatus').textContent='🎁';
  } else {
@@ -612,7 +637,7 @@ function renderAdvent(){
    const today=stage.kind==='day'&&day===stage.today,past=stage.kind==='day'&&day<stage.today||stage.kind==='after';
    const done=answered[day]!==undefined;
    buttonDay.classList.add(today?'today':past?(done?'done':'past'):'locked');
-   buttonDay.disabled=!today||loadingAnswers;
+   buttonDay.disabled=!today||loadingAnswers||answerLoadError;
    buttonDay.innerHTML=`<small aria-hidden="true">${today?'✦':past?(done?'✓':'🔒'):'·'}</small><span>${day}</span>`;
    buttonDay.setAttribute('aria-label',today?'Gruodžio '+day+' diena. Šiandienos klausimas':'Gruodžio '+day+' diena. Uždaryta');
    if(today)buttonDay.addEventListener('click',openTodayQuestion);
@@ -620,22 +645,35 @@ function renderAdvent(){
  }
 }
 async function loadTodayAnswer(){
+ // Read the participant's own immutable daily documents. Firestore rules permit
+ // these single-document reads without exposing anybody else's results.
  if(!currentUser || isLocalPreview || !db || !authUser)return;
- const stage=getStage();if(stage.kind!=='day')return;
- const userId=authUser.uid,day=stage.today;
- loadingAnswers=true;renderAdvent();
- try{
-  const snapshot=await db.collection('submissions').doc(userId+'_'+day).get();
-  if(snapshot.exists && currentUser && authUser?.uid===userId)answered[day]=snapshot.data().choice;
- }catch(err){console.error('Nepavyko patikrinti atsakymo:',err);el('adventNote').innerHTML='<strong>Nepavyko patikrinti</strong><p>Patikrinkite internetą ir Firebase taisykles, tada atverkite kalendorių iš naujo.</p>';}
- finally{loadingAnswers=false;renderAdvent();}
+ if(answerLoadPromise)return answerLoadPromise;
+ const uid=authUser.uid;
+ loadingAnswers=true;answerLoadError=false;renderAdvent();
+ answerLoadPromise=(async()=>{
+  try{
+   const results=await Promise.all(Array.from({length:24},(_,i)=>db.collection('submissions').doc(uid+'_'+(i+1)).get()));
+   if(authUser?.uid!==uid)return;
+   const found={};
+   results.forEach((snapshot,index)=>{if(snapshot.exists && Number.isInteger(snapshot.data().choice))found[index+1]=snapshot.data().choice;});
+   answered={...answered,...found};answersLoaded=true;
+  }catch(err){
+   console.error('Nepavyko gauti advento atsakymų:',err);
+   answerLoadError=true;answersLoaded=false;
+  }finally{
+   if(authUser?.uid===uid){loadingAnswers=false;renderAdvent();}
+   answerLoadPromise=null;
+  }
+ })();
+ return answerLoadPromise;
 }
 el('todayQuestionButton').addEventListener('click',openTodayQuestion);
 function openTodayQuestion(){
  const stage=getStage();if(stage.kind!=='day'||loadingAnswers||!currentUser)return;
  const day=stage.today,q=questions[day-1],existing=answered[day],body=el('quizDialogBody');
  if(existing!==undefined){
-  body.innerHTML=`<div class="quiz-date">GRUODŽIO ${day} D.</div><h2 id="quizDialogTitle">Šiandienos faktas ✨</h2><div class="quiz-fact"><strong>${existing===q.a?'Teisingai! 🎉':'Smagus faktas 🎄'}</strong><p><b>${q.o[q.a]}.</b> ${q.f}</p></div><p class="quiz-again-note">Į klausimą jau atsakei. Iki rytojaus!</p>`;
+  body.innerHTML=`<div class="quiz-date">GRUODŽIO ${day} D.</div><h2 id="quizDialogTitle">Šiandienos atsakymas ✨</h2><div class="quiz-fact"><strong>${existing===q.a?'Teisingai! +1 taškas 🎉':'Neteisingai! Šiandien +0 taškų'}</strong><p><b>Teisingas atsakymas: ${q.o[q.a]}.</b></p><p>${q.f}</p></div><p class="quiz-again-note">Į klausimą jau atsakei. Iki rytojaus!</p>`;
  }else{
   body.innerHTML=`<div class="quiz-date">GRUODŽIO ${day} D.</div><h2 id="quizDialogTitle"></h2><div class="quiz-options" id="todayChoices"></div><p id="quizSaveError" class="login-error" role="alert"></p>`;
   el('quizDialogTitle').textContent=q.q;
@@ -684,27 +722,63 @@ function displayRankings(scores){
    el('rankingRows').appendChild(row);
  });
 }
+
+function demoScores(){
+ const result={};
+ participants.forEach(p=>{
+  let entries={};
+  try{entries=p.id===currentUser.id?answered:JSON.parse(localStorage.getItem('kaledos-2026-demoresponses-'+p.id)||'{}');}catch{}
+  result[p.id]={score:Object.entries(entries).filter(([d,a])=>questions[Number(d)-1]?.a===a).length,answers:Object.keys(entries).length};
+ });
+ return result;
+}
+async function fetchAllScores(){
+ if(isLocalPreview)return demoScores();
+ if(!db)throw Error('Firebase nepasiekiama');
+ const snapshot=await db.collection('submissions').get();
+ const scores=Object.fromEntries(participants.map(p=>[p.id,{score:0,answers:0}]));
+ snapshot.forEach(doc=>{
+   const r=doc.data();if(!scores[r.participantId])return;
+   scores[r.participantId].answers++;
+   if(r.correct===true)scores[r.participantId].score++;
+ });
+ return scores;
+}
+function displayOrganizerScores(summary){
+ const target=el('finalArea');target.replaceChildren();
+ const heading=document.createElement('div');heading.className='admin-title';
+ heading.innerHTML='<h2>Dalyvių rezultatai</h2><button class="admin-refresh" id="refreshAdmin" type="button">Atnaujinti</button>';
+ target.appendChild(heading);
+ const board=document.createElement('div');board.className='admin-board';
+ const sorted=[...participants].sort((a,b)=>summary[b.id].score-summary[a.id].score||participants.indexOf(a)-participants.indexOf(b));
+ sorted.forEach(p=>{
+   const data=summary[p.id],row=document.createElement('div');row.className='admin-row';
+   row.innerHTML=`<img src="${ASSETS[p.id].face}" alt=""><span class="person">${p.name}</span><div class="numbers"><b>${data.score} tšk.</b><small>Atsakyta: ${data.answers}/24</small></div>`;
+   board.appendChild(row);
+ });
+ target.appendChild(board);
+ const note=document.createElement('p');note.className='admin-notice';note.textContent='Šią peržiūrą iki gruodžio 25 d. gali matyti tik Vismantė.';target.appendChild(note);
+ el('refreshAdmin').addEventListener('click',renderFinal);
+}
 async function renderFinal(){
  if(!currentUser)return;
- const panel=el('finalArea');
- if(getStage().kind!=='after'){
-   panel.innerHTML='<div class="final-area-card"><div class="final-emoji">🎁</div><h2>Kol kas paslaptis!</h2><p>Visos vietos paaiškės gruodžio 25 d.</p></div>';
-   return;
- }
- if(isLocalPreview){
-   const scores={};participants.forEach(p=>{
-     try{const items=p.id===currentUser.id?answered:JSON.parse(localStorage.getItem('kaledos-2026-demoresponses-'+p.id)||'{}');scores[p.id]=Object.entries(items).filter(([d,a])=>questions[Number(d)-1]?.a===a).length;}catch{scores[p.id]=0;}
-   });
-   displayRankings(scores);return;
+ const userAtRequest=currentUser.id,panel=el('finalArea');
+ const isOrganizer=userAtRequest==='vismante';
+ if(!isOrganizer && getStage().kind!=='after'){
+  panel.innerHTML='<div class="final-area-card"><div class="final-emoji">🎁</div><h2>Kol kas paslaptis!</h2><p>Visos vietos paaiškės gruodžio 25 d.</p></div>';
+  return;
  }
  panel.innerHTML='<div class="final-area-card"><h2>Skaičiuojamos vietos… 🎄</h2></div>';
- if(!db){panel.innerHTML='<div class="final-area-card"><p>Nepavyko prisijungti prie Firebase.</p></div>';return;}
  try{
-  const all=await db.collection('submissions').get(),scores={};
-  all.forEach(doc=>{const r=doc.data();if(byId[r.participantId]&&r.correct===true)scores[r.participantId]=(scores[r.participantId]||0)+1;});
+  const summary=await fetchAllScores();
+  if(currentUser?.id!==userAtRequest)return;
+  if(isOrganizer){displayOrganizerScores(summary);return;}
   if(getStage().kind!=='after')return;
-  displayRankings(scores);
- }catch(err){console.error(err);panel.innerHTML='<div class="final-area-card"><p>Rezultatų nepavyko įkelti. Pabandykite dar kartą.</p></div>';}
+  displayRankings(Object.fromEntries(Object.entries(summary).map(([id,data])=>[id,data.score])));
+ }catch(err){
+  console.error(err);
+  if(currentUser?.id===userAtRequest)panel.innerHTML='<div class="final-area-card"><p>Rezultatų nepavyko įkelti. Patikrinkite Firebase taisykles.</p></div>';
+ }
 }
 // Preview-only date simulation never sends future dates to Firebase.
 if(isLocalPreview){
